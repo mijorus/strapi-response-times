@@ -1,0 +1,31 @@
+{
+  "name": "strapi-plugin-store-response-times",
+  "version": "0.0.0",
+  "description": "This is the description of the plugin.",
+  "strapi": {
+    "name": "store-response-times",
+    "icon": "plug",
+    "description": "Description of store-response-times plugin."
+  },
+  "dependencies": {
+    "chart.js": "^2.9.4",
+    "randomcolor": "^0.6.2"
+  },
+  "author": {
+    "name": "A Strapi developer",
+    "email": "",
+    "url": ""
+  },
+  "maintainers": [
+    {
+      "name": "A Strapi developer",
+      "email": "",
+      "url": ""
+    }
+  ],
+  "engines": {
+    "node": ">=10.16.0 <=14.x.x",
+    "npm": ">=6.0.0"
+  },
+  "license": "MIT"
+}

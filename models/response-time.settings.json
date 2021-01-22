@@ -1,0 +1,39 @@
+{
+  "kind": "collectionType",
+  "collectionName": "response_times",
+  "info": {
+    "name": "Response Time"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "url": {
+      "type": "string",
+      "required": true
+    },
+    "method": {
+      "type": "string",
+      "required": true
+    },
+    "responseTime": {
+      "type": "integer",
+      "required": true
+    },
+    "status": {
+      "type": "integer",
+      "required": true
+    },
+    "error": {
+      "type": "boolean",
+      "required": true
+    },
+    "throttled": {
+      "type": "boolean",
+      "required": false,
+      "default": false
+    }
+  }
+}
