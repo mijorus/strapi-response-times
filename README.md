@@ -1,3 +1,3 @@
 # Strapi plugin store-response-times
 
-A quick description of store-response-times.
+This plugin is still in development, I just need a place to backup files
