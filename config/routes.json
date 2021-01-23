@@ -3,7 +3,7 @@
     {
       "method": "GET",
       "path": "/",
-      "handler": "store-response-times.index",
+      "handler": "store-response-times.find",
       "config": {
         "policies": []
       }

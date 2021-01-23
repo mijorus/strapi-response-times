@@ -10,6 +10,16 @@ export default strapi => {
   const icon = pluginPkg.strapi.icon;
   const name = pluginPkg.strapi.name;
 
+  const menuSection = {
+    // Unique id of the section
+    id: pluginId,
+    // Title of Menu section using i18n
+    title: {
+      id: `${pluginId}.foo`,
+      defaultMessage: 'Super cool setting',
+    },
+  }
+
   const plugin = {
     blockerComponent: null,
     blockerComponentProps: {},
@@ -18,7 +28,7 @@ export default strapi => {
     id: pluginId,
     initializer: Initializer,
     injectedComponents: [],
-    isReady: false,
+    isReady: true,
     isRequired: pluginPkg.strapi.required || false,
     layout: null,
     lifecycles,
@@ -32,7 +42,7 @@ export default strapi => {
           destination: `/plugins/${pluginId}`,
           icon,
           label: {
-            id: `${pluginId}.plugin.name`,
+            id: `${pluginId}.name`,
             defaultMessage: name,
           },
           name,

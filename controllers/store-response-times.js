@@ -14,12 +14,10 @@ module.exports = {
    * @return {Object}
    */
 
-  index: async (ctx) => {
-    // Add your own logic here.
+  find: async (ctx) => {
+    const { find } = strapi.plugins['store-response-times'].services.find
+    const fields = await find();
 
-    // Send 200 `ok`
-    ctx.send({
-      message: 'ok'
-    });
+    return fields;
   }
 };

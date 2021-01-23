@@ -1,13 +1,14 @@
 {
   "kind": "collectionType",
-  "collectionName": "response_times",
+  "collectionName": "response-times",
   "info": {
     "name": "Response Time"
   },
   "options": {
     "increments": true,
     "timestamps": true,
-    "draftAndPublish": false
+    "draftAndPublish": false,
+    "populateCreatorFields": false
   },
   "attributes": {
     "url": {

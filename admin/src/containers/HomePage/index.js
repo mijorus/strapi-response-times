@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 // import PropTypes from 'prop-types';
-import pluginId from '../../pluginId';
+import { FormattedMessage } from 'react-intl';
 import { SwitchToggle } from "../../components/SwitchToggle";
 import Container from "../../components/Container";
 import { Graph } from "../../components/Graph/Graph";
@@ -10,7 +10,9 @@ const HomePage = () => {
   return (
     <Container>
       <SpaceBtw>
-        <h1>Response times</h1>
+        <h1>
+          <FormattedMessage id="store-response-times.name" />
+        </h1>
         <SwitchToggle initialValue={true} />
       </SpaceBtw>
       <div>

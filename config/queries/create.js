@@ -10,5 +10,5 @@ module.exports = {
                 status: responseLog.status,
                 error: responseLog.error
             });
-    }
+    },
 }
