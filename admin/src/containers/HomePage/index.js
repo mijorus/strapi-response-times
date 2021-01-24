@@ -1,9 +1,9 @@
 import React, { memo } from 'react';
 // import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { SwitchToggle } from "../../components/SwitchToggle";
+import { SwitchToggle } from "../../components/SwitchToggle/";
 import Container from "../../components/Container";
-import { Graph } from "../../components/Graph/Graph";
+import { Graph } from "../Graph";
 import SpaceBtw from "../../components/FlexBox/SpaceBtw";
 
 const HomePage = () => {

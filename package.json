@@ -8,6 +8,7 @@
     "description": "Description of store-response-times plugin."
   },
   "dependencies": {
+    "@reactchartjs/react-chart.js": "^1.0.0-rc.3",
     "chart.js": "^2.9.4",
     "randomcolor": "^0.6.2"
   },
