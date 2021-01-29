@@ -14,9 +14,8 @@ module.exports = {
    * @return {Object}
    */
 
-  find: async (ctx) => {
-    const { find } = strapi.plugins['store-response-times'].services.find
-    const fields = await find(ctx.query);
+  async find(ctx) {
+    const fields = await strapi.query('response-time', 'store-response-times').find(ctx.query);
 
     return fields.map(field => sanitizeEntity(field, { model: strapi.plugins['store-response-times'].models['response-time'] }));;
   }

@@ -2,12 +2,28 @@
 const { request } = require("strapi-helper-plugin");
 
 module.exports = {
-    getList(limit) {
+    getList(params = {}) {
+        const defaultParams = {
+            '_sort': 'created_at:DESC',
+            '_limit': 30,
+            'method_null': false,
+
+        }
+
+        const requestParams = Object.assign(defaultParams, params)
+
         return request('/store-response-times', { 
             method: 'GET',
+            params: requestParams,
+        })
+    },
+
+    getEndPoints() {
+        return request('/store-response-times', { 
+            method: 'GET' ,
             params: {
-                '_sort': 'created_at:DESC',
-                '_limit': limit,
+                '_limit': 1,
+                'method': null,
             }
         })
     }

@@ -17,19 +17,19 @@
     },
     "method": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "responseTime": {
       "type": "integer",
-      "required": true
+      "required": false
     },
     "status": {
       "type": "integer",
-      "required": true
+      "required": false
     },
     "error": {
       "type": "boolean",
-      "required": true
+      "required": false
     },
     "throttled": {
       "type": "boolean",

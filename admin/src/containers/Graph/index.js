@@ -2,7 +2,7 @@ import { Line } from '@reactchartjs/react-chart.js'
 import React from 'react';
 import { SwitchToggle } from "../../components/SwitchToggle";
 import { getList } from "../../utils/requests";
-import Container from "../../components/Container";
+import Container from "../../components/Container/Container";
 import pluginId from '../../pluginId';
 import { FormattedMessage } from 'react-intl';
 
@@ -31,14 +31,14 @@ export class Graph extends React.Component {
 
   enableLiveView(enabled = true) {
     if (enabled) {
-      this.liveViewInterval = setInterval(() => { this.loadGraph() }, 5000)
+      this.liveViewInterval = setInterval(() => { this.loadGraph() }, 15 *1000)
     } else if (this.liveViewInterval) {
       clearInterval(this.liveViewInterval);
     }
   }
 
   loadGraph() {
-    getList(30)
+    getList()
       .then((res) => {
         this.setState({
           data: {
@@ -72,7 +72,6 @@ export class Graph extends React.Component {
   render() {
     return (
       <div>
-        <Line data={this.state.data} options={this.options} />
         <Container>
           <FormattedMessage id={`${pluginId}.live_view`} />
           <SwitchToggle
@@ -80,6 +79,7 @@ export class Graph extends React.Component {
             onValueChange={this.setLiveView}
           />
         </Container>
+        <Line data={this.state.data} options={this.options} />
       </div>
     )
   }
