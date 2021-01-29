@@ -9,9 +9,19 @@ import { Select } from '@buffetjs/core';
 import { getEndPoints } from "../../utils/requests";
 
 class HomePage extends React.Component {
+  constructor() {
+    this.state = {
+      endPoints: [],
+    }
+  }
+
   componentDidMount() {
-    // getEndPoints()
-    //   .then(res => console.log(res))
+    getEndPoints()
+      .then((res) => {
+        this.setState({
+          endPoints: JSON.parse(res.data)
+        })
+      })
   }
 
   render() {
@@ -25,6 +35,12 @@ class HomePage extends React.Component {
         </SpaceBtw>
         <div>
           <Graph />
+        </div>
+        <div>
+          <Select
+            name="select"
+            options={this.state.endPoints}
+          />
         </div>
       </Container>
     )

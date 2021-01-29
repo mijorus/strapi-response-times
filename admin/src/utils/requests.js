@@ -6,8 +6,6 @@ module.exports = {
         const defaultParams = {
             '_sort': 'created_at:DESC',
             '_limit': 30,
-            'method_null': false,
-
         }
 
         const requestParams = Object.assign(defaultParams, params)
@@ -19,12 +17,8 @@ module.exports = {
     },
 
     getEndPoints() {
-        return request('/store-response-times', { 
-            method: 'GET' ,
-            params: {
-                '_limit': 1,
-                'method': null,
-            }
+        return request('/store-response-times/endPoints', { 
+            method: 'GET',
         })
     }
 }

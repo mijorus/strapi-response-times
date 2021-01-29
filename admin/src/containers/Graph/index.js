@@ -43,8 +43,10 @@ export class Graph extends React.Component {
         this.setState({
           data: {
             labels: res.map((record) => {
-              const created = new Date(record.created_at);
-              return `${created.getHours()}:${created.getMinutes()} ${record.url}`
+              if (record) {
+                const created = new Date(record.created_at);
+                return `${created.getHours()}:${created.getMinutes()} ${record.url}`
+              }
             }),
             datasets: [
               {
