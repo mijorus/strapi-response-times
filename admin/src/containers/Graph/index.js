@@ -52,7 +52,7 @@ export class Graph extends React.Component {
             }),
             datasets: [
               {
-                label: '/GET',
+                label: 'Response time (ms)',
                 data: res.map((record) => record.responseTime),
                 fill: false,
                 backgroundColor: 'rgb(255, 99, 132)',
