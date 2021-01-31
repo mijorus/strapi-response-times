@@ -5,6 +5,7 @@ import { getList } from "../../utils/requests";
 import Container from "../../components/Container/Container";
 import pluginId from '../../pluginId';
 import { FormattedMessage } from 'react-intl';
+import { endPointsQuery } from "../../utils/queryFactory";
 
 
 export class Graph extends React.Component {
@@ -13,6 +14,7 @@ export class Graph extends React.Component {
     this.state = {
       data: {},
       liveView: true,
+      query: '',
     }
 
     this.setLiveView = this.setLiveView.bind(this);
@@ -37,15 +39,15 @@ export class Graph extends React.Component {
     }
   }
 
-  loadGraph() {
-    getList()
+  loadGraph(query = this.state.query) {
+    getList(query)
       .then((res) => {
         this.setState({
           data: {
             labels: res.map((record) => {
               if (record) {
-                const created = new Date(record.created_at);
-                return `${created.getHours()}:${created.getMinutes()} ${record.url}`
+                const createdAt = new Date(record.created_at);
+                return `${createdAt.getHours()}:${(createdAt.getMinutes() < 10 ? '0' : '') + createdAt.getMinutes() } ${record.method} ${record.url}`
               }
             }),
             datasets: [
@@ -58,12 +60,20 @@ export class Graph extends React.Component {
               }
             ]
           }
-        })
+        });
       });
   }
 
   componentWillUnmount() {
     this.enableLiveView(false);
+  }
+
+  componentDidUpdate(prevProp) {
+    if (prevProp.query !== this.props.query) {
+      const newQuery = endPointsQuery(this.props.query);
+      this.setState({ query:  newQuery});
+      this.loadGraph(newQuery);
+    }
   }
 
   componentDidMount() {
