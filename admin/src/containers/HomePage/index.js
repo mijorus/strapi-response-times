@@ -15,7 +15,7 @@ class HomePage extends React.Component {
     this.state = {
       endPoints: [],
       endPointsArray: [],
-      selectedEndPoint: '',
+      selectedEndPointValue: '',
     }
 
     this.loadEndPoint = this.loadEndPoint.bind(this);
@@ -25,9 +25,7 @@ class HomePage extends React.Component {
     getEndPoints()
       .then(({ data }) => {
         data = JSON.parse(data);
-        let endPointsArray = data.map((endPoint) => {
-          return endPoint.method + ' ' + endPoint.route;
-        });
+        let endPointsArray = data.map((endPoint) =>  endPoint.value);
 
         endPointsArray.unshift('All');
 
@@ -40,7 +38,8 @@ class HomePage extends React.Component {
 
   loadEndPoint({ target }) {
     this.setState({
-      selectedEndPoint: (target.value === 'All') ? '' : target.value,
+      selectedEndPoint: this.state.endPoints.find((endPoint) => { return endPoint.value === target.value }),
+      selectedEndPointValue: (target.value === 'All') ? '' : target.value,
     });
   }
 
@@ -66,7 +65,7 @@ class HomePage extends React.Component {
                     name="select"
                     options={this.state.endPointsArray}
                     onChange={this.loadEndPoint}
-                    value={this.state.selectedEndPoint}
+                    value={this.state.selectedEndPointValue}
                   />
                 </VerticalContainer>
             </Col>

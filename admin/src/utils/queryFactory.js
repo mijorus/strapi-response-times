@@ -5,11 +5,10 @@ module.exports = {
         if (selection === '') {
             return selection
         } else {
-            const params = selection.split(' ');
             return {
                 '_where': [{
-                    'method': params[0],
-                    'url': params[1],
+                    'method': selection.method,
+                    'url': selection.path,
                 }]
             }
         }

@@ -39,7 +39,7 @@ export class Graph extends React.Component {
     }
   }
 
-  loadGraph(query = this.state.query) {
+  loadGraph(query = this.state.query, lineColor = 'rgb(255, 99, 132)') {
     getList(query)
       .then((res) => {
         this.setState({
@@ -55,8 +55,8 @@ export class Graph extends React.Component {
                 label: 'Response time (ms)',
                 data: res.map((record) => record.responseTime),
                 fill: false,
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgba(255, 99, 132, 0.2)',
+                backgroundColor: lineColor,
+                borderColor: 'rgba(' + ( /\(([^)]+)\)/.exec(lineColor) )[1] + ', 0.2)',
               }
             ]
           }
@@ -71,8 +71,8 @@ export class Graph extends React.Component {
   componentDidUpdate(prevProp) {
     if (prevProp.query !== this.props.query) {
       const newQuery = endPointsQuery(this.props.query);
-      this.setState({ query:  newQuery});
-      this.loadGraph(newQuery);
+      this.setState({ query:  newQuery });
+      this.loadGraph(newQuery, this.props.query.color);
     }
   }
 
