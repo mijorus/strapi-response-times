@@ -2,8 +2,8 @@
 
 module.exports = {
     endPointsQuery(selection) {
-        if (selection === '') {
-            return selection
+        if (!selection || selection === '') {
+            return ''
         } else {
             return {
                 '_where': [{

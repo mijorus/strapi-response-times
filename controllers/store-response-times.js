@@ -1,6 +1,6 @@
 'use strict';
-const { sanitizeEntity } = require("strapi-utils");
 const randomColor = require('randomcolor');
+
 /**
  * store-response-times.js controller
  *
