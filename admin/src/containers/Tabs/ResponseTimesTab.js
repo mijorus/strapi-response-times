@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import VerticalContainer from "../../components/Container/VerticalContainer";
-import Graph from "../Graph";
+import Graph from "../Graph/ResponseTimesGraph";
 import { Select } from '@buffetjs/core';
 import { getEndPoints } from "../../utils/requests";
 import { Grid, Col, Row } from 'react-styled-flexboxgrid';
@@ -35,7 +35,7 @@ export default class ResponseTimesTab extends React.Component {
 
     loadEndPoint({ target }) {
         this.setState({
-            selectedEndPoint: this.state.endPoints.find((endPoint) => { return endPoint.value === target.value }),
+            selectedEndPoint: this.state.endPoints.find((endPoint) => endPoint.value === target.value ),
             selectedEndPointValue: (target.value === 'All') ? '' : target.value,
         });
     }

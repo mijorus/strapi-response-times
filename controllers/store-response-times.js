@@ -1,5 +1,7 @@
 'use strict';
 const randomColor = require('randomcolor');
+const qs = require('qs');
+const dayjs = require('dayjs');
 
 /**
  * store-response-times.js controller
@@ -54,4 +56,31 @@ module.exports = {
       data: JSON.stringify(activeEndPoints),
     }    
   },
+
+  /**
+   * Counts the hits of the endpoints
+   * 
+   * @return {Object} 
+   */
+  async count({ query }) {
+    const fromDate = qs.parse(query.from);
+    const toDate = dayjs(query.to);
+    
+    let responseArray = [];
+    for (let index = 0; index < fromDate.amount; index++) {
+      const currentDate = toDate.subtract(index, fromDate.unit).toISOString();
+
+      const hits = await strapi.query('response-time', 'store-response-times').count({
+        'created_at_gt': toDate.subtract(index + 1, fromDate.unit).toISOString(),
+        'created_at_lt': currentDate,
+        // 'method': query.method,
+        // 'url': query.endpoint
+      });
+
+      responseArray.push({ date: currentDate, hits: hits });
+    }
+
+    return responseArray;
+  },
+
 };

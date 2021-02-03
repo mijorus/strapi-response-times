@@ -15,6 +15,14 @@
       "config": {
         "policies": []
       }
+    },
+    {
+      "method": "GET",
+      "path": "/count",
+      "handler": "store-response-times.count",
+      "config": {
+        "policies": []
+      }
     }
   ]
 }
