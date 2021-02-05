@@ -18,7 +18,6 @@ module.exports = {
    *
    * @return {Object}
    */
-
   async find(ctx) {
     const fields = await strapi.query('response-time', 'store-response-times').find(ctx.query);
     return fields;
@@ -41,7 +40,7 @@ module.exports = {
           const policies = route.config.policies;
           if (policies.find((policy) => policy === 'plugins::store-response-times.store')) {
             activeEndPoints.push({
-              path: route.path,
+              url: route.path,
               method: route.method,
               value: route.method + ' ' + route.path,
               color: colors[index],
@@ -63,23 +62,26 @@ module.exports = {
    * @return {Object} 
    */
   async count({ query }) {
-    const fromDate = qs.parse(query.from);
-    const toDate = dayjs(query.to);
+    console.log(query);
+    const fromDate = dayjs.unix(query.from);
+    const toDate = dayjs.unix(query.to);
     
+    // const diff = toDate.diff(fromDate, 'hours');
+
+    const amount = 7;
+    const unit = 'days';
+
     let responseArray = [];
-    for (let index = 0; index < fromDate.amount; index++) {
-      const currentDate = toDate.subtract(index, fromDate.unit).toISOString();
+    for (let index = 0; index < amount; index++) {
+      const currentDate = toDate.subtract(index, unit).toISOString();
 
       const hits = await strapi.query('response-time', 'store-response-times').count({
-        'created_at_gt': toDate.subtract(index + 1, fromDate.unit).toISOString(),
+        'created_at_gt': toDate.subtract(index + 1, unit).toISOString(),
         'created_at_lt': currentDate,
-        // 'method': query.method,
-        // 'url': query.endpoint
       });
 
       responseArray.push({ date: currentDate, hits: hits });
     }
-
     return responseArray;
   },
 
