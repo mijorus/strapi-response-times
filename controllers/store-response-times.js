@@ -62,22 +62,25 @@ module.exports = {
    * @return {Object} 
    */
   async count({ query }) {
-    console.log(query);
     const fromDate = dayjs.unix(query.from);
     const toDate = dayjs.unix(query.to);
     
     // const diff = toDate.diff(fromDate, 'hours');
-
+    // Still in development
     const amount = 7;
     const unit = 'days';
 
+    delete query.from;
+    delete query.to;
+
     let responseArray = [];
-    for (let index = 0; index < amount; index++) {
+    for (let index = (amount - 1); index >= 0; index--) {
       const currentDate = toDate.subtract(index, unit).toISOString();
 
       const hits = await strapi.query('response-time', 'store-response-times').count({
         'created_at_gt': toDate.subtract(index + 1, unit).toISOString(),
         'created_at_lt': currentDate,
+        ...query,
       });
 
       responseArray.push({ date: currentDate, hits: hits });

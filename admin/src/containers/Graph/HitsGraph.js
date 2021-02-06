@@ -1,5 +1,6 @@
 import { Line } from '@reactchartjs/react-chart.js'
 import React from 'react';
+import dayjs from 'dayjs';
 
 export default class Graph extends React.Component {
   constructor(props) {
@@ -19,10 +20,10 @@ export default class Graph extends React.Component {
   loadGraph(hitsData = this.props.hitsData) {
     this.setState({
       data: {
-        labels: hitsData.map((el) => el.date),
+        labels: hitsData.map((el) => dayjs(el.date).format('MM/DD')),
         datasets: [
           {
-            label: 'Response time (ms)',
+            label: '# of Hits',
             data: hitsData.map((el) => el.hits),
             fill: false,
           }

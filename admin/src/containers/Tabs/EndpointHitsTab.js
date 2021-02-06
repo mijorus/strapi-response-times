@@ -29,10 +29,9 @@ export default class EndpointsHits extends React.Component {
   }
   
   loadEndPoint(el) {
-    this.getGraphData({
-      'url': el.url,
-      'method': el.method
-    });
+    el
+      ? this.getGraphData({ 'url': el.url, 'method': el.method })
+      : this.getGraphData();
   }
   
   render() {

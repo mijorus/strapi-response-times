@@ -21,11 +21,8 @@ class HomePage extends React.Component {
         </SpaceBtw>
         <VerticalContainer>
           <Tabs tabsLabel={homeTabs}>
-            <ResponseTimesTab>
-            </ResponseTimesTab>
-
-            <EndpointsHits>
-            </EndpointsHits>
+            <ResponseTimesTab/>
+            <EndpointsHits/>
           </Tabs>
         </VerticalContainer>
       </Container>
