@@ -55,7 +55,6 @@ module.exports = {
     
     const requestParams = {};
     Object.assign(requestParams, defaultParams, query);
-    console.log(requestParams);
     return request('/store-response-times/count', {
       method: 'GET',
       params: requestParams

@@ -7,7 +7,6 @@ export default class Graph extends React.Component {
     super(props);
     this.state = {
       defaultGraphColor: 'rgb(255, 99, 132)',
-      graphColor: undefined,
     }
     
     this.options = {
@@ -17,7 +16,7 @@ export default class Graph extends React.Component {
     }
   }
   
-  loadGraph(hitsData = this.props.hitsData) {
+  loadGraph(hitsData = this.props.hitsData.data, lineColor = lineColor || this.state.defaultGraphColor) {
     this.setState({
       data: {
         labels: hitsData.map((el) => dayjs(el.date).format('MM/DD')),
@@ -26,6 +25,8 @@ export default class Graph extends React.Component {
             label: '# of Hits',
             data: hitsData.map((el) => el.hits),
             fill: false,
+            backgroundColor: lineColor,
+            borderColor: 'rgba(' + (/\(([^)]+)\)/.exec(lineColor))[1] + ', 0.2)',
           }
         ]
       }
@@ -33,8 +34,9 @@ export default class Graph extends React.Component {
   }
   
   componentDidUpdate(prevProp) {
-    if (this.props.hitsData && (prevProp.hitsData !== this.props.hitsData)) {
-      this.loadGraph(this.props.hitsData)
+    const props = this.props;
+    if (props.hitsData && (prevProp.hitsData !== props.hitsData)) {
+      this.loadGraph(props.hitsData.data, props.hitsData.graphColor);
     }
   }
   

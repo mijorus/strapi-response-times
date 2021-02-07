@@ -16,11 +16,12 @@ export default class EndpointsHits extends React.Component {
     this.loadEndPoint = this.loadEndPoint.bind(this);
   }
 
-  getGraphData(query = {}) {
+  getGraphData(query = {}, color = undefined) {
     countHits(query)
       .then((res) => {
-        console.log(res);
-        this.setState({ selectedEndPointHits: res })
+        this.setState({ 
+          selectedEndPointHits: {data: res, graphColor: color},
+        })
       })
   }
 
@@ -29,9 +30,9 @@ export default class EndpointsHits extends React.Component {
   }
   
   loadEndPoint(el) {
-    el
-      ? this.getGraphData({ 'url': el.url, 'method': el.method })
-      : this.getGraphData();
+    const query = el ? { 'url': el.url, 'method': el.method } : {};
+    const color = el ? el.color : undefined;
+    this.getGraphData(query, color);
   }
   
   render() {
@@ -43,7 +44,7 @@ export default class EndpointsHits extends React.Component {
           </Row>
           <Row>
             <Col xs>
-              <Graph hitsData={this.state.selectedEndPointHits} />
+              <Graph hitsData={this.state.selectedEndPointHits}/>
             </Col>
           </Row>
           <Row>
