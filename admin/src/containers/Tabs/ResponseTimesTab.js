@@ -4,6 +4,7 @@ import VerticalContainer from "../../components/Container/VerticalContainer";
 import Graph from "../Graph/ResponseTimesGraph";
 import { Grid, Col, Row } from 'react-styled-flexboxgrid';
 import EndPointSelector from "../../components/EndPointSelector";
+import pluginId from '../../pluginId';
 
 export default class ResponseTimesTab extends React.Component {
   constructor() {
@@ -24,7 +25,9 @@ export default class ResponseTimesTab extends React.Component {
       <VerticalContainer>
         <Grid fluid={true}>
           <Row>
-            <h2>Endpoint response times</h2>
+            <h2>
+              <FormattedMessage id={`${pluginId}.response_times`}/>
+            </h2>
           </Row>
           <Row>
             <Col xs>

@@ -1,5 +1,6 @@
 {
     "name": "Response times",
     "live_view": "Live view",
-    "respose_times": "Response times"
+    "response_times": "Response times",
+    "endpoint_hits": "Endpoint hits"
 }

@@ -2,9 +2,10 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import VerticalContainer from "../../components/Container/VerticalContainer";
 import Graph from "../Graph/HitsGraph";
-import { countHits, getEndPoints } from "../../utils/requests";
+import { countHits } from "../../utils/requests";
 import { Grid, Col, Row } from 'react-styled-flexboxgrid';
 import EndPointSelector from "../../components/EndPointSelector";
+import pluginId from '../../pluginId';
 
 export default class EndpointsHits extends React.Component {
   constructor() {
@@ -40,7 +41,9 @@ export default class EndpointsHits extends React.Component {
       <VerticalContainer>
         <Grid fluid={true}>
           <Row>
-            <h2>Endpoint hits</h2>
+            <h2>
+              <FormattedMessage id={`${pluginId}.endpoint_hits`} />
+            </h2>
           </Row>
           <Row>
             <Col xs>

@@ -3,10 +3,10 @@
 export default [
     {
         id: 1,
-        defaultMessage: 'response_times',
+        defaultMessage:'Response Times',
     },
     {
         id: 2,
-        defaultMessage: 'endpoint_hits',
+        defaultMessage: 'Endpoint Hits',
     }
 ]
