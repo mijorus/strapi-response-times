@@ -2,15 +2,15 @@
 
 module.exports = {
   endPointsQuery(selection) {
-    if (selection || selection !== '') {
-      return {
-        '_where': [{
-          'method': selection.method,
-          'url': selection.path,
-        }]
-      }
+    if (!selection || selection === '') {
+      return '';
     }
 
-    return '';
+    return {
+      '_where': [{
+        'method': selection.method,
+        'url': selection.path,
+      }]
+    };
   }
 }
