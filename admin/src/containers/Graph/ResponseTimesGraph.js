@@ -6,6 +6,8 @@ import Container from "../../components/Container/Container";
 import pluginId from '../../pluginId';
 import { FormattedMessage } from 'react-intl';
 import { endPointsQuery } from "../../utils/queryFactory";
+import { getRGBvalues } from "../../utils/helpers";
+import dayjs from 'dayjs';
 
 
 export default class Graph extends React.Component {
@@ -47,10 +49,7 @@ export default class Graph extends React.Component {
         this.setState({
           data: {
             labels: res.map((record) => {
-              if (record) {
-                const createdAt = new Date(record.created_at);
-                return `${createdAt.getHours()}:${(createdAt.getMinutes() < 10 ? '0' : '') + createdAt.getMinutes()} ${record.method} ${record.url}`
-              }
+              if (record) return `${dayjs(record.created_at).format('HH:mm')} ${record.method} ${record.url}`
             }),
             datasets: [
               {
@@ -58,7 +57,7 @@ export default class Graph extends React.Component {
                 data: res.map((record) => record.responseTime),
                 fill: false,
                 backgroundColor: lineColor,
-                borderColor: 'rgba(' + ( /\(([^)]+)\)/.exec(lineColor) )[1] + ', 0.2)',
+                borderColor: 'rgba(' + getRGBvalues(lineColor) + ', 0.2)',
               }
             ]
           }
@@ -74,8 +73,8 @@ export default class Graph extends React.Component {
     // When the users requests a new endpoint,
     // the component loads the new query in the state,
     // saves its random generated color and calls at a regular interval
-    
     if (prevProp.query !== this.props.query) {
+      console.log(this.props.query);
       const newQuery = endPointsQuery(this.props.query);
       const newGraphColor = this.props.query ? this.props.query.color : this.state.defaultGraphColor;
       this.setState({ query:  newQuery, graphColor: newGraphColor });
