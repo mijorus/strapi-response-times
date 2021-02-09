@@ -31,9 +31,8 @@ module.exports = {
   async endPoints() {
     if (activeEndPoints === undefined) {
       activeEndPoints = [];
-      const apis = strapi.api;
 
-      for (const [api, props] of Object.entries(apis)) {
+      for (const [api, props] of Object.entries(strapi.api)) {
         const routes = props.config.routes;
         const colors = randomColor({ count: routes.length, luminosity: 'bright', format: 'rgb' });
         routes.forEach((route, index) => {
@@ -53,7 +52,7 @@ module.exports = {
     return {
       statusCode: 200,
       data: JSON.stringify(activeEndPoints),
-    }    
+    }
   },
 
   /**
@@ -64,27 +63,27 @@ module.exports = {
   async count({ query }) {
     const fromDate = dayjs.unix(query.from);
     const toDate = dayjs.unix(query.to);
-    
-    // const diff = toDate.diff(fromDate, 'hours');
-    // Still in development
-    const amount = 7;
-    const unit = 'days';
+
+    const diffUnit = toDate.diff(fromDate, 'hour') > 24 ? 'day' : 'hour';
+    const amount = toDate.diff(fromDate, diffUnit);
 
     delete query.from;
     delete query.to;
 
     let responseArray = [];
+
     for (let index = (amount - 1); index >= 0; index--) {
-      const currentDate = toDate.subtract(index, unit).toISOString();
+      const currentDate = toDate.subtract(index, diffUnit).toISOString();
 
       const hits = await strapi.query('response-time', 'store-response-times').count({
-        'created_at_gt': toDate.subtract(index + 1, unit).toISOString(),
+        'created_at_gt': toDate.subtract(index + 1, diffUnit).toISOString(),
         'created_at_lt': currentDate,
         ...query,
       });
 
       responseArray.push({ date: currentDate, hits: hits });
     }
+
     return responseArray;
   },
 

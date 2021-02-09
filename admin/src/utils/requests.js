@@ -42,8 +42,9 @@ module.exports = {
   },
   
   /**
-  * @param {Object} 
-  * @param {Object} dayjs
+  * @param {Object} query
+  * @param {dayjs} from
+  * @param {dayjs} to
   * 
   * @return request
   */

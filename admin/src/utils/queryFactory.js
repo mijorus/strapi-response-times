@@ -9,7 +9,7 @@ module.exports = {
     return {
       '_where': [{
         'method': selection.method,
-        'url': selection.path,
+        'url': selection.url,
       }]
     };
   }
