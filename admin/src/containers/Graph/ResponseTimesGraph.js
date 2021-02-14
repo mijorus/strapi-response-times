@@ -74,7 +74,6 @@ export default class Graph extends React.Component {
     // the component loads the new query in the state,
     // saves its random generated color and calls at a regular interval
     if (prevProp.query !== this.props.query) {
-      console.log(this.props.query);
       const newQuery = endPointsQuery(this.props.query);
       const newGraphColor = this.props.query ? this.props.query.color : this.state.defaultGraphColor;
       this.setState({ query:  newQuery, graphColor: newGraphColor });

@@ -24,7 +24,7 @@ export default class EndpointsHits extends React.Component {
     this.setTimeRange = this.setTimeRange.bind(this);
   }
 
-  getGraphData(query = this.state.lastQuery, color = undefined, timeRange = this.state.timeRange) {
+  getGraphData(query = '', color = undefined, timeRange = this.state.timeRange) {
     const range = timeRange.split(' ');
     countHits(query, dayjs().subtract(range[0], range[1]))
       .then((res) => {
@@ -44,7 +44,9 @@ export default class EndpointsHits extends React.Component {
   }
   
   loadEndPoint(el) {
-    el ? this.getGraphData({ 'url': el.url, 'method': el.method }, el.color) : this.getGraphData();
+    (el !== '') 
+      ? this.getGraphData({ 'url': el.url, 'method': el.method }, el.color) 
+      : this.getGraphData();
   }
 
   setTimeRange({ target }) {

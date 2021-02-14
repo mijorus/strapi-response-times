@@ -29,7 +29,7 @@ export default class EndPointSelector extends React.Component {
 
   handleChange({ target }) {
     const selectedEndPoint = this.state.endPoints.find((endPoint) => endPoint.value === target.value);
-    this.props.onSelection(selectedEndPoint);
+    this.props.onSelection(selectedEndPoint || '');
 
     this.setState({
       selectedEndPointValue: (target.value === 'All') ? '' : target.value,
