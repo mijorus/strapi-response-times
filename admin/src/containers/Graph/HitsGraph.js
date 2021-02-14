@@ -30,7 +30,7 @@ export default class Graph extends React.Component {
             data: hitsData.map((el) => el.hits),
             fill: false,
             backgroundColor: lineColor,
-            borderColor: 'rgba(' + getRGBvalues(lineColor) + ', 0.2)',
+            borderColor: 'rgba(' + getRGBvalues(lineColor) + ', 0.7)',
           }
         ]
       }

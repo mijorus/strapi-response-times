@@ -7,19 +7,26 @@ let activeEndPoints = undefined;
 
 module.exports = {
   /**
-   * @param {Object} params - an object of additional params to merge with defaults
+   * @param Array params - an object of additional params to merge with defaults
    */
-  getList(params = {}) {
+  async getList(params = {}) {
     const defaultParams = {
       '_sort': 'created_at:DESC',
       '_limit': 30,
     }
     
     const requestParams = Object.assign(defaultParams, params);
-    
-    return request('/store-response-times?' + qs.stringify(requestParams), { 
+
+    const response = await request('/store-response-times?' + qs.stringify(requestParams), {
       method: 'GET',
-    })
+    });
+
+    let result = [];
+    if (response.length > 0) {
+      response.forEach((value) => result.unshift(value))
+    }
+
+    return result;
   },
   
   /**
@@ -56,6 +63,7 @@ module.exports = {
     
     const requestParams = {};
     Object.assign(requestParams, defaultParams, query);
+    console.log(requestParams);
     return request('/store-response-times/count', {
       method: 'GET',
       params: requestParams

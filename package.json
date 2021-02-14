@@ -13,6 +13,7 @@
     "@buffetjs/styles": "^3.3.3",
     "@reactchartjs/react-chart.js": "^1.0.0-rc.3",
     "chart.js": "^2.9.4",
+    "chartjs-plugin-annotation": "^0.5.7",
     "dayjs": "^1.10.4",
     "qs": "^6.9.6",
     "randomcolor": "^0.6.2",

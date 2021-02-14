@@ -2,6 +2,7 @@
 const randomColor = require('randomcolor');
 const qs = require('qs');
 const dayjs = require('dayjs');
+const _ = require('lodash');
 
 /**
  * store-response-times.js controller

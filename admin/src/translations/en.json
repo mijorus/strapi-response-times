@@ -2,5 +2,7 @@
     "name": "Response times",
     "live_view": "Live view",
     "response_times": "Response times",
-    "endpoint_hits": "Endpoint hits"
+    "endpoint_hits": "Endpoint hits",
+    "post_request_warn": "POST request warning (ms)",
+    "get_request_warn": "GET request warning (ms)"
 }

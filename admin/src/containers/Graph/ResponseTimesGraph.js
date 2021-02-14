@@ -8,6 +8,7 @@ import { FormattedMessage } from 'react-intl';
 import { endPointsQuery } from "../../utils/queryFactory";
 import { getRGBvalues } from "../../utils/helpers";
 import dayjs from 'dayjs';
+import * as ChartJsAnnotation from 'chartjs-plugin-annotation';
 
 
 export default class Graph extends React.Component {
@@ -27,6 +28,22 @@ export default class Graph extends React.Component {
       scales: {
         yAxes: [ { ticks: { beginAtZero: true } } ],
       },
+      annotation: {
+        annotations: [
+          {
+            type: "line",
+            mode: 'horizontal',
+            scaleID: "y-axis-0",
+            value: 80,
+            borderColor: "rgb(255, 212, 0)",
+            label: {
+              backgroundColor: "rgb(255, 127, 0)",
+              content: "warning",
+              enabled: true
+            }
+          }
+        ]
+      }
     }
   }
 
@@ -49,7 +66,12 @@ export default class Graph extends React.Component {
         this.setState({
           data: {
             labels: res.map((record) => {
-              if (record) return `${dayjs(record.created_at).format('HH:mm')} ${record.method} ${record.url}`
+              if (record) {
+                const requestDate = dayjs(record.created_at).format('HH:mm');
+                return (query === '') 
+                  ? `${requestDate} ${record.method} ${record.url}`
+                  : requestDate.toString()
+              }
             }),
             datasets: [
               {
@@ -57,10 +79,10 @@ export default class Graph extends React.Component {
                 data: res.map((record) => record.responseTime),
                 fill: false,
                 backgroundColor: lineColor,
-                borderColor: 'rgba(' + getRGBvalues(lineColor) + ', 0.2)',
+                borderColor: 'rgba(' + getRGBvalues(lineColor) + ', 0.7)',
               }
             ]
-          }
+          },
         });
       });
   }
@@ -96,7 +118,7 @@ export default class Graph extends React.Component {
             onValueChange={this.setLiveView}
           />
         </Container>
-        <Line data={this.state.data} options={this.options} />
+        <Line data={this.state.data} options={this.options} plugins={ChartJsAnnotation}/>
       </div>
     )
   }
