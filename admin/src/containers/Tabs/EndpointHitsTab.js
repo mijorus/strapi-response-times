@@ -28,13 +28,15 @@ export default class EndpointsHits extends React.Component {
     const range = timeRange.split(' ');
     countHits(query, dayjs().subtract(range[0], range[1]))
       .then((res) => {
+        console.log(res);
         this.setState({
           lastQuery: query,
           lastColor: color,
           selectedEndPointHits: { 
             data: res, 
             graphColor: color, 
-            showTime: (range[1] === 'hour' ? true : false)},
+            showTime: (range[1] === 'hour')
+          },
         });
       })
   }

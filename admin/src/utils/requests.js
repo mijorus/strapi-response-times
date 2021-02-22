@@ -7,7 +7,7 @@ let activeEndPoints = undefined;
 
 module.exports = {
   /**
-   * @param Array params - an object of additional params to merge with defaults
+   * @param {Array} params - an object of additional params to merge with defaults
    */
   async getList(params = {}) {
     const defaultParams = {
@@ -33,12 +33,11 @@ module.exports = {
    * @return {Object}
    */
   async getEndPoints() {
-    if (!activeEndPoints) {
-      let { data } = await request('/store-response-times/endPoints', {
+    if (activeEndPoints === undefined) {
+      const data = await request('/store-response-times/endPoints', {
         method: 'GET',
       });
 
-      data = JSON.parse(data);
       activeEndPoints = {
         response: data,
         list: (data.map((endPoint) => endPoint.value)),
@@ -61,12 +60,9 @@ module.exports = {
       'to': to.unix(),
     }
     
-    const requestParams = {};
-    Object.assign(requestParams, defaultParams, query);
-    console.log(requestParams);
     return request('/store-response-times/count', {
       method: 'GET',
-      params: requestParams
+      params: Object.assign({}, defaultParams, query)
     })
   }
 }
