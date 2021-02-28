@@ -1,10 +1,9 @@
 import { Line } from '@reactchartjs/react-chart.js'
 import React from 'react';
 import dayjs from 'dayjs';
-import randomColor from 'randomcolor';
 import { getRGBvalues } from '../../utils/helpers';
 
-export default class Graph extends React.Component {
+export default class HitsGraph extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,7 +16,7 @@ export default class Graph extends React.Component {
     }
   }
   
-  loadGraph(datasets = this.props.hitsData.data, lineColor = this.state.defaultGraphColor, showTime = false) {
+  loadGraph(datasets = this.props.hitsData.data, showTime = false) {
     this.setState({
       data: {
         labels: datasets[0].map((el) => {
@@ -26,12 +25,11 @@ export default class Graph extends React.Component {
         }),
         datasets: datasets.map((dataset, index) => {
           return {
-            label: '# of Hits ' + index,
+            label: `${dataset[0].method} ${dataset[0].url}`,
             data: dataset.map((el) => el.hits),
             fill: false,
-            backgroundColor: lineColor,
-            // borderColor: 'rgba(' + getRGBvalues(lineColor) + ', 0.7)',
-            borderColor: randomColor({ luminosity: 'bright', format: 'rgb' })
+            backgroundColor: dataset[0].color,
+            borderColor: `rgba(${getRGBvalues(dataset[0].color)}, 0.5)`,
           }
         })
       }, 
@@ -40,8 +38,8 @@ export default class Graph extends React.Component {
   
   componentDidUpdate(prevProp) {
     const props = this.props;
-    if (props.hitsData && (prevProp.hitsData !== props.hitsData)) {
-      this.loadGraph(props.hitsData.data, props.hitsData.graphColor, props.hitsData.showTime);
+    if (props.graphData && (prevProp.graphData !== props.graphData)) {
+      this.loadGraph(props.graphData.data, props.graphData.showTime);
     }
   }
   
