@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import VerticalContainer from "../../components/Container/VerticalContainer";
-import Graph from "../Graph/HitsGraph";
+import HitsGraph from "../Graph/HitsGraph";
 import { countHits } from "../../utils/requests";
 import { Grid, Col, Row } from 'react-styled-flexboxgrid';
 import EndPointSelector from "../../components/EndPointSelector";
@@ -14,9 +14,8 @@ export default class EndpointsHits extends React.Component {
   constructor() {
     super();
     this.state = {
-      selectedEndPointHits: undefined,
+      graphData: undefined,
       timeRange: '7 day',
-      lastColor: undefined,
       lastQuery: {},
     }
     
@@ -24,17 +23,15 @@ export default class EndpointsHits extends React.Component {
     this.setTimeRange = this.setTimeRange.bind(this);
   }
 
-  getGraphData(query = '', color = undefined, timeRange = this.state.timeRange) {
+  getGraphData(query = '', timeRange = this.state.timeRange) {
     const range = timeRange.split(' ');
     countHits(query, dayjs().subtract(range[0], range[1]))
       .then((res) => {
         console.log(res);
         this.setState({
           lastQuery: query,
-          lastColor: color,
-          selectedEndPointHits: { 
+          graphData: { 
             data: res, 
-            graphColor: color, 
             showTime: (range[1] === 'hour')
           },
         });
@@ -47,13 +44,13 @@ export default class EndpointsHits extends React.Component {
   
   loadEndPoint(el) {
     (el !== '') 
-      ? this.getGraphData({ 'url': el.url, 'method': el.method }, el.color) 
+      ? this.getGraphData({ 'url': el.url, 'method': el.method }) 
       : this.getGraphData();
   }
 
   setTimeRange({ target }) {
     this.setState({ timeRange: target.value });
-    this.getGraphData(this.state.lastQuery, this.state.lastColor, target.value);
+    this.getGraphData(this.state.lastQuery, target.value);
   }
   
   render() {
@@ -90,7 +87,7 @@ export default class EndpointsHits extends React.Component {
           </Row>
           <Row>
             <Col xs>
-              <Graph hitsData={this.state.selectedEndPointHits}/>
+              <HitsGraph graphData={this.state.graphData}/>
             </Col>
           </Row>
           <Row>
@@ -98,6 +95,7 @@ export default class EndpointsHits extends React.Component {
               <VerticalContainer>
                 <EndPointSelector
                   onSelection={(el) => this.loadEndPoint(el)}
+                  selectAll={true}
                 />
               </VerticalContainer>
             </Col>

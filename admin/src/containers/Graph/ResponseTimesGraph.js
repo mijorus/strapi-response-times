@@ -11,7 +11,7 @@ import dayjs from 'dayjs';
 import * as ChartJsAnnotation from 'chartjs-plugin-annotation';
 
 
-export default class Graph extends React.Component {
+export default class ResponseTimesGraph extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -65,21 +65,14 @@ export default class Graph extends React.Component {
       .then((res) => {
         this.setState({
           data: {
-            labels: res.map((record) => {
-              if (record) {
-                const requestDate = dayjs(record.created_at).format('HH:mm');
-                return (query === '') 
-                  ? `${requestDate} ${record.method} ${record.url}`
-                  : requestDate.toString()
-              }
-            }),
+            labels: res.map((record) => dayjs(record.created_at).format('HH:mm')),
             datasets: [
               {
                 label: 'Response time (ms)',
                 data: res.map((record) => record.responseTime),
                 fill: false,
                 backgroundColor: lineColor,
-                borderColor: 'rgba(' + getRGBvalues(lineColor) + ', 0.7)',
+                borderColor: `rgba(${getRGBvalues(lineColor)}, 0.5)`,
               }
             ]
           },
@@ -95,11 +88,10 @@ export default class Graph extends React.Component {
     // When the users requests a new endpoint,
     // the component loads the new query in the state,
     // saves its random generated color and calls at a regular interval
-    if (prevProp.query !== this.props.query) {
-      const newQuery = endPointsQuery(this.props.query);
-      const newGraphColor = this.props.query ? this.props.query.color : this.state.defaultGraphColor;
-      this.setState({ query:  newQuery, graphColor: newGraphColor });
-      this.loadGraph(newQuery, newGraphColor);
+    if (prevProp.graphData !== this.props.graphData) {
+      const newQuery = endPointsQuery(this.props.graphData);
+      this.setState({ query: newQuery, graphColor: this.props.graphData.color });
+      this.loadGraph(newQuery, this.props.graphData.color);
     }
   }
 

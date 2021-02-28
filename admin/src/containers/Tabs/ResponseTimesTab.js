@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import VerticalContainer from "../../components/Container/VerticalContainer";
-import Graph from "../Graph/ResponseTimesGraph";
+import ResponseTimesGraph from "../Graph/ResponseTimesGraph";
 import { Grid, Col, Row } from 'react-styled-flexboxgrid';
 import EndPointSelector from "../../components/EndPointSelector";
 import pluginId from '../../pluginId';
@@ -15,12 +15,6 @@ export default class ResponseTimesTab extends React.Component {
       getWarn: 150,
       selectedEndPointValue: '',
     }
-    
-    this.loadEndPoint = this.loadEndPoint.bind(this);
-  }
-  
-  loadEndPoint(el) {
-    this.setState({ selectedEndPoint: el })
   }
   
   render() {
@@ -34,8 +28,8 @@ export default class ResponseTimesTab extends React.Component {
           </Row>
           <Row>
             <Col xs>
-              <Graph 
-                query={this.state.selectedEndPoint} 
+              <ResponseTimesGraph 
+                graphData={this.state.graphData} 
               />
             </Col>
           </Row>
@@ -43,7 +37,8 @@ export default class ResponseTimesTab extends React.Component {
             <Col xs={12} md={6} lg={4}>
               <VerticalContainer>
                 <EndPointSelector 
-                  onSelection={(el) => this.loadEndPoint(el)}
+                  onSelection={ (el) => this.setState({ graphData: el }) }
+                  selectAll={false}
                 />
               </VerticalContainer>
             </Col>

@@ -60,7 +60,7 @@ module.exports = {
       'to': to.unix(),
     }
     
-    return request('/store-response-times/count', {
+    return request('/store-response-times/countHits', {
       method: 'GET',
       params: Object.assign({}, defaultParams, query)
     })
