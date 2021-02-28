@@ -58,7 +58,7 @@ module.exports = {
    * 
    * @return {Object} 
    */
-  async count({ query }) {
+  async countHits({ query }) {
     const fromDate = dayjs.unix(query.from);
     const toDate = dayjs.unix(query.to);
 
@@ -66,19 +66,24 @@ module.exports = {
 
     let requestedEndPoints = [];
     query = _.omit(query, ['from', 'to']);
+    
+    const endPoints = await this.endPoints();
+
     if (_.isEmpty(query)) {
-      (await this.endPoints()).forEach((el) => {
-        requestedEndPoints.push(_.omit(el, ['color', 'value']))
-      })
+      endPoints.forEach((endPoint) => requestedEndPoints.push(endPoint));
     } else {
       requestedEndPoints.push(query);
     }
 
     let response = [];
-    for (const q of requestedEndPoints) {
-      
+    for (const endPoint of requestedEndPoints) {
+      const { color } = endPoints.find((el) => {
+        return (el.url === endPoint.url && el.method === endPoint.method);
+      });
+
       let data = [];
       for (let index = toDate.diff(fromDate, diffUnit) - 1; index >= 0; index--) {
+        const q = _.omit(endPoint, ['color', 'value']);
 
         const currentDate = toDate.subtract(index, diffUnit).toISOString();
         const hits = await strapi.query('response-time', 'store-response-times').count({
@@ -86,8 +91,8 @@ module.exports = {
           'created_at_lt': currentDate,
           ...q,
         });
-      
-        data.push({ date: currentDate, hits: hits, ...q });
+
+        data.push({ date: currentDate, hits: hits, ...q, color: color});
       }
 
       response.push(data)

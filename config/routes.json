@@ -18,8 +18,8 @@
     },
     {
       "method": "GET",
-      "path": "/count",
-      "handler": "store-response-times.count",
+      "path": "/countHits",
+      "handler": "store-response-times.countHits",
       "config": {
         "policies": []
       }
