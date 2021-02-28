@@ -18,7 +18,7 @@ export default class EndPointSelector extends React.Component {
     getEndPoints()
       .then((res) => {
         let list = [...res.list]
-        list.unshift('All');
+        if (this.props.selectAll) list.unshift('All');
 
         this.setState({
           endPoints: res.response,
