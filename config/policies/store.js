@@ -15,7 +15,7 @@ module.exports = async (ctx, next) => {
   // Pause the execution until the request logic is compleated
   await next()
     .then(() => {
-      const request = ctx.request
+      const request = ctx.request;
       const delta = Math.ceil(performance.now() - start);
       const plugin = strapi.plugins['store-response-times'];
 
@@ -27,6 +27,7 @@ module.exports = async (ctx, next) => {
         error: plugin.services.errors.isError(this.status)
       };
 
-      plugin.config.queries.save(responseLog);
+      strapi.query('response-time', 'store-response-times')
+        .create(...responseLog);
     })
-};
+}
