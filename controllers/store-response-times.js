@@ -27,7 +27,6 @@ module.exports = {
   /**
    * Search for all the endpoints where the policy is in use
    * 
-   * @return Array
    */
   async endPoints() {
     if (activeEndPoints === undefined) {
@@ -54,26 +53,24 @@ module.exports = {
   },
 
   /**
-   * Counts the hits of the endpoints
+   * Counts the number of hits of each endpoint
    * 
-   * @return {Object} 
    */
   async countHits({ query }) {
     const fromDate = dayjs.unix(query.from);
     const toDate = dayjs.unix(query.to);
-
     const diffUnit = (toDate.diff(fromDate, 'hour') > 24) ? 'day' : 'hour';
+    console.log(query);
 
     let requestedEndPoints = [];
-    query = _.omit(query, ['from', 'to']);
-    
     const endPoints = await this.endPoints();
 
-    if (_.isEmpty(query)) {
-      endPoints.forEach((endPoint) => requestedEndPoints.push(endPoint));
+    if (_.isEmpty(query._q)) {
+      requestedEndPoints = endPoints;
     } else {
-      requestedEndPoints.push(query);
+      requestedEndPoints.push(query._q);
     }
+    
 
     let response = [];
     for (const endPoint of requestedEndPoints) {
@@ -100,5 +97,4 @@ module.exports = {
 
     return response;
   },
-
 };

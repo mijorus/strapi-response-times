@@ -17,11 +17,11 @@ export default class EndPointSelector extends React.Component {
   componentDidMount() {
     getEndPoints()
       .then((res) => {
-        let list = [...res.list]
+        let list = (res.map((endPoint) => endPoint.value))
         if (this.props.selectAll) list.unshift('All');
 
         this.setState({
-          endPoints: res.response,
+          endPoints: res,
           endPointsArray: list,
         });
       })

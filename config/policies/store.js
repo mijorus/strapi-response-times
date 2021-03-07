@@ -27,7 +27,6 @@ module.exports = async (ctx, next) => {
         error: plugin.services.errors.isError(this.status)
       };
 
-      strapi.query('response-time', 'store-response-times')
-        .create(...responseLog);
+      strapi.query('response-time', 'store-response-times').create(...responseLog);
     })
 }

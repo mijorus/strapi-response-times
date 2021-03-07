@@ -6,48 +6,41 @@ const dayjs = require('dayjs');
 let activeEndPoints = undefined;
 
 module.exports = {
+  
   /**
-   * @param {Array} params - an object of additional params to merge with defaults
+   * Gets the response timesof the requested end points
+   * 
+   * @param {Object} params 
    */
-  async getList(params = {}) {
-    const defaultParams = {
-      '_sort': 'created_at:DESC',
-      '_limit': 30,
-    }
-    
-    const requestParams = Object.assign(defaultParams, params);
+  async getResponseTimesList(params = {}) {
+    const response = await request('/store-response-times?' + qs.stringify(
+      Object.assign({
+        '_sort': 'created_at:DESC',
+        '_limit': 40,
+      }, params)
+    ),  { method: 'GET' });
 
-    const response = await request('/store-response-times?' + qs.stringify(requestParams), {
-      method: 'GET',
-    });
-
-    let result = [];
-    if (response.length > 0) {
-      response.forEach((value) => result.unshift(value))
-    }
-
-    return result;
+    return response.reverse();
   },
   
   /**
-   * @return {Object}
+   * Gets the endpoint list
+   * 
    */
   async getEndPoints() {
     if (activeEndPoints === undefined) {
-      const data = await request('/store-response-times/endPoints', {
+      activeEndPoints = await request('/store-response-times/endPoints', {
         method: 'GET',
       });
-
-      activeEndPoints = {
-        response: data,
-        list: (data.map((endPoint) => endPoint.value)),
-      }
     }
 
     return activeEndPoints;
   },
   
   /**
+   * Counts the number of hits for the selected endpoint
+   * in the requested timerange
+   * 
   * @param {Object} query
   * @param {dayjs} from
   * @param {dayjs} to
@@ -55,14 +48,13 @@ module.exports = {
   * @return request
   */
   countHits(query, from = dayjs().subtract(7, 'days'), to = dayjs()) {
-    const defaultParams = {
-      'from': from.unix(),
-      'to': to.unix(),
-    }
-    
     return request('/store-response-times/countHits', {
       method: 'GET',
-      params: Object.assign({}, defaultParams, query)
-    })
+      params: {
+        from: from.unix(),
+        to: to.unix(),
+        _q: qs.stringify(query)
+      }
+    });
   }
 }

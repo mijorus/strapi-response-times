@@ -1,7 +1,7 @@
 import { Line } from '@reactchartjs/react-chart.js'
 import React from 'react';
 import { SwitchToggle } from "../../components/SwitchToggle";
-import { getList } from "../../utils/requests";
+import { getResponseTimesList } from "../../utils/requests";
 import Container from "../../components/Container/Container";
 import pluginId from '../../pluginId';
 import { FormattedMessage } from 'react-intl';
@@ -61,7 +61,7 @@ export default class ResponseTimesGraph extends React.Component {
   }
 
   loadGraph(query = this.state.query, lineColor = this.state.graphColor || this.state.defaultGraphColor) {
-    getList(query)
+    getResponseTimesList(query)
       .then((res) => {
         this.setState({
           data: {
@@ -84,10 +84,10 @@ export default class ResponseTimesGraph extends React.Component {
     this.enableLiveView(false);
   }
 
+  // When the users requests a new endpoint,
+  // the component loads the new query in the state,
+  // saves its random generated color and calls at a regular interval
   componentDidUpdate(prevProp) {
-    // When the users requests a new endpoint,
-    // the component loads the new query in the state,
-    // saves its random generated color and calls at a regular interval
     if (prevProp.graphData !== this.props.graphData) {
       const newQuery = endPointsQuery(this.props.graphData);
       this.setState({ query: newQuery, graphColor: this.props.graphData.color });

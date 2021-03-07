@@ -1,0 +1,22 @@
+{
+  "kind": "singleType",
+  "collectionName": "active-end-points",
+  "info": {
+    "name": "Active end points"
+  },
+  "options": {
+    "draftAndPublish": false,
+    "timestamps": true,
+    "increments": true,
+    "comment": ""
+  },
+  "attributes": {
+    "activeEndPoints": {
+      "type": "json",
+      "default": {
+        "list": []
+      },
+      "required": true
+    }
+  }
+}
